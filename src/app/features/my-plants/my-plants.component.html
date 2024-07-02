@@ -37,7 +37,7 @@
           <input type="text" class="form-control form-control-sm" [ngClass]="{'is-valid': variety.valid, 'is-invalid': variety.dirty && variety.invalid}" formControlName="variety" placeholder="Variété" />
         </td>
         <td>
-          <input type="date" [min]="now()" class="form-control form-control-sm" formControlName="plantingDate" [ngClass]="{'is-valid': plantingDate.valid, 'is-invalid': plantingDate.dirty && plantingDate.invalid}" placeholder="Date de plantation" />
+          <input type="date" [max]="max()" [min]="min()" class="form-control form-control-sm" formControlName="plantingDate" [ngClass]="{'is-valid': plantingDate.valid, 'is-invalid': plantingDate.dirty && plantingDate.invalid}" placeholder="Date de plantation" />
         </td>
         <td>
           <input type="number" class="form-control form-control-sm" formControlName="monthBeforeHarvesting" [ngClass]="{'is-valid': monthBeforeHarvesting.valid, 'is-invalid': monthBeforeHarvesting.dirty && monthBeforeHarvesting.invalid}" title="nombre de mois avant récolte" />
@@ -46,7 +46,7 @@
           {{ estimatedHarvestingDate() | date : 'dd/MM/yyyy'}}
         </td>
         <td>
-          <input type="date" class="form-control form-control-sm" formControlName="fertilizationDate" [ngClass]="{'is-valid': fertilizationDate.valid, 'is-invalid': fertilizationDate.dirty && fertilizationDate.invalid}" placeholder="Dernière date de fertilisation" />
+          <input type="date" [max]="max()" [min]="min()" class="form-control form-control-sm" formControlName="fertilizationDate" [ngClass]="{'is-valid': fertilizationDate.valid, 'is-invalid': fertilizationDate.dirty && fertilizationDate.invalid}" placeholder="Dernière date de fertilisation" />
         </td>
         <td>
           <button [disabled]="plantForm.dirty && plantForm.invalid" title="Enregistrer" type="submit" class="btn btn-light btn-sm"><i class="bi bi-floppy2"></i></button>

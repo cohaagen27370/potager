@@ -21,8 +21,8 @@ export class MyPlantsComponent {
 
   estimatedHarvestingDate = signal(null);
 
-  now = computed(() => {
-    let today = new Date();
+  max = computed(() => {
+    let today = new Date(new Date().getTime() + (14000 * 60 * 60 * 24));
     let dd: number | string = today.getDate();
     let mm: number | string = today.getMonth() + 1; //January is 0!
     const yyyy = today.getFullYear();
@@ -37,7 +37,22 @@ export class MyPlantsComponent {
 
     return yyyy + '-' + mm + '-' + dd;
   });
+  min = computed(() => {
+    let today = new Date(new Date().getTime() - (7000 * 60 * 60 * 24));
+    let dd: number | string = today.getDate();
+    let mm: number | string = today.getMonth() + 1; //January is 0!
+    const yyyy = today.getFullYear();
 
+    if (dd < 10) {
+      dd = '0' + dd;
+    }
+
+    if (mm < 10) {
+      mm = '0' + mm;
+    }
+
+    return yyyy + '-' + mm + '-' + dd;
+  });
 
   constructor() {
 
