@@ -27,13 +27,18 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets"
               }
             ],
             "styles": [
               "src/styles.scss",
-              "src/assets/styles/bootstrap.min.css"
+              "src/assets/styles/bootstrap.min.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.min.css"
             ],
-            "scripts": ["src/assets/styles/bootstrap.bundle.min.js"]
+            "scripts": ["src/assets/scripts/bootstrap.bundle.min.js"]
           },
           "configurations": {
             "production": {
@@ -94,9 +99,10 @@
             ],
             "styles": [
               "src/styles.scss",
-              "src/assets/styles/bootstrap.min.css"
+              "src/assets/styles/bootstrap.min.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.min.css"
             ],
-            "scripts": ["src/assets/styles/bootstrap.bundle.min.js"]
+            "scripts": ["/src/assets/scripts/bootstrap.bundle.min.js"]
           }
         }
       }

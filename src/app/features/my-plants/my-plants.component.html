@@ -1,0 +1,57 @@
+<form [formGroup]="plantForm">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Nom</th>
+        <th scope="col">Variété</th>
+        <th scope="col">Date de plantation</th>
+        <th scope="col">Mois avant récolte</th>
+        <th scope="col">Date de récolte</th>
+        <th scope="col">Dernière Date de fertilisation</th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+    <tbody>
+      <tr>
+        <td class="has-validation">
+          <select class="form-select form-select-sm" [ngClass]="{'is-valid': name.valid, 'is-invalid': name.dirty && name.invalid}" formControlName="name" title="Nom du légume / fruit">
+            <option value=""></option>
+            <option value="salades">Salades</option>
+            <option value="betteraves">Betteraves</option>
+            <option value="carottes">Carottes</option>
+            <option value="choux">Choux</option>
+            <option value="pois">Pois</option>
+            <option value="feves">Fèves</option>
+            <option value="haricots">Haricots</option>
+            <option value="tomates">Tomates</option>
+            <option value="aubergines">Aubergines</option>
+            <option value="poivrons">Poivrons</option>
+            <option value="courgettes">Courgettes</option>
+            <option value="cucurbitacee">Cucurbitacée</option>
+          </select>
+        </td>
+        <td>
+          <input type="text" class="form-control form-control-sm" [ngClass]="{'is-valid': variety.valid, 'is-invalid': variety.dirty && variety.invalid}" formControlName="variety" placeholder="Variété" />
+        </td>
+        <td>
+          <input type="date" [min]="now()" class="form-control form-control-sm" formControlName="plantingDate" [ngClass]="{'is-valid': plantingDate.valid, 'is-invalid': plantingDate.dirty && plantingDate.invalid}" placeholder="Date de plantation" />
+        </td>
+        <td>
+          <input type="number" class="form-control form-control-sm" formControlName="monthBeforeHarvesting" [ngClass]="{'is-valid': monthBeforeHarvesting.valid, 'is-invalid': monthBeforeHarvesting.dirty && monthBeforeHarvesting.invalid}" title="nombre de mois avant récolte" />
+        </td>
+        <td>
+          {{ estimatedHarvestingDate() | date : 'dd/MM/yyyy'}}
+        </td>
+        <td>
+          <input type="date" class="form-control form-control-sm" formControlName="fertilizationDate" [ngClass]="{'is-valid': fertilizationDate.valid, 'is-invalid': fertilizationDate.dirty && fertilizationDate.invalid}" placeholder="Dernière date de fertilisation" />
+        </td>
+        <td>
+          <button [disabled]="plantForm.dirty && plantForm.invalid" title="Enregistrer" type="submit" class="btn btn-light btn-sm"><i class="bi bi-floppy2"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>

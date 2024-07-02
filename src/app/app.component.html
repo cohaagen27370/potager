@@ -1,9 +1,24 @@
-<header></header>
+<header>
+  <ptgr-header/>
+</header>
 <nav></nav>
 
-<aside></aside>
-<main>
-  <router-outlet />
-</main>
+<div class="container-fluid">
+  <br/>
+  <div class="row">
+    <div class="col-lg-2">
+      <aside>
+        <ptgr-almanach/>
+      </aside>
+    </div>
+    <div class="col-lg-10">
+      <main>
+        <router-outlet />
+      </main>
+    </div>
+  </div>
+</div>
 
-<footer></footer>
+<footer>
+  <ptgr-footer/>
+</footer>
