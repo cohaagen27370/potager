@@ -1,7 +1,32 @@
 <div class="card">
   <div class="card-body">
-    <h4 class="card-title">Almanach</h4>
-    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <h4 class="card-title text-center">Almanach</h4>
+    <p class="text-center">Le {{ now | date:'fullDate'}}</p>
+
+    @if(ephemerid()) {
+      <h6 class="card-subtitle mb-2 text-muted">
+        @if( ephemerid()?.sun_rise) {
+          <div class="row">
+            <div class="col-6">
+              <img src="images/sunrise.png" />
+              {{ ephemerid()!.sun_rise }}
+            </div>
+            <div class="col-6">
+              <img src="images/sunset.png" />
+              {{ ephemerid()!.sun_set }}
+            </div>
+          </div>
+        }
+        @if(ephemerid()?.day_length) {
+          <div class="row mt-3">
+            <div class="col-12 text-center">
+              <img src="images/day_length.png" />
+              {{ ephemerid()!.day_length }}
+            </div>
+          </div>
+        }
+      </h6>
+    }
+    <p class="card-text text-center">{{ saint() }}</p>
   </div>
 </div>
