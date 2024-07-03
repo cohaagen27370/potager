@@ -6,12 +6,14 @@
 <div class="container-fluid">
   <br/>
   <div class="row">
-    <div class="col-lg-2">
-      <aside>
-        <ptgr-almanach/>
-      </aside>
-    </div>
-    <div class="col-lg-10">
+    @if(format() != "mobile") {
+      <div class="col-xxl-2 col-xl-2 mb-2">
+        <aside>
+          <ptgr-almanach/>
+        </aside>
+      </div>
+    }
+    <div class="col-xxl-10 col-xl-10 col-lg-12 col-md-12 col-sm-12 col-12">
       <main>
         <router-outlet />
       </main>
@@ -22,3 +24,5 @@
 <footer class="fixed-bottom">
   <ptgr-footer/>
 </footer>
+
+

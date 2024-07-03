@@ -7,12 +7,12 @@
       <h6 class="card-subtitle mb-2 text-muted">
         @if( ephemerid()?.sun_rise) {
           <div class="row">
-            <div class="col-6">
-              <img src="images/sunrise.png" />
+            <div class="col-6 text-center">
+              <img alt="sunrise" src="images/sunrise.png" />
               {{ ephemerid()!.sun_rise }}
             </div>
-            <div class="col-6">
-              <img src="images/sunset.png" />
+            <div class="col-6 text-center">
+              <img alt="sunset" src="images/sunset.png" />
               {{ ephemerid()!.sun_set }}
             </div>
           </div>
@@ -20,7 +20,7 @@
         @if(ephemerid()?.day_length) {
           <div class="row mt-3">
             <div class="col-12 text-center">
-              <img src="images/day_length.png" />
+              <img alt="day_length" src="images/day_length.png" />
               {{ ephemerid()!.day_length }}
             </div>
           </div>

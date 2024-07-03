@@ -55,6 +55,7 @@ export class MyPreparationsComponent {
     this.preparationStore.RemovePreparation(id);
   }
 
+
   constructor() {
 
     this.id = new FormControl(undefined,[]);
@@ -62,7 +63,7 @@ export class MyPreparationsComponent {
     this.type = new FormControl('',[Validators.required]);
     this.daysBeforeHarvesting = new FormControl('',[Validators.required ]);
     this.makingDate = new FormControl('',[Validators.required ]);
-    this.harvestingDate = new FormControl('',[]);
+    this.harvestingDate = new FormControl({ value :'',  disabled: true},[]);
 
     this.preparationForm = new FormGroup({
       id: this.id,

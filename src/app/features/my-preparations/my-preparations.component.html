@@ -1,6 +1,7 @@
 <form [formGroup]="preparationForm" (submit)="Submit()">
-  <table class="table">
-    <thead>
+  <div class="table-responsive">
+  <table class="table table-striped table-borderless">
+    <thead class="table-light">
       <tr>
         <th scope="col">Nom</th>
         <th scope="col">Type</th>
@@ -32,41 +33,42 @@
         </tr>
       }
     </tbody>
-    <tbody>
-      <tr>
-        <td class="has-validation">
-          <input type="hidden" formControlName="id" />
-          <select class="form-select form-select-sm" [ngClass]="{'is-valid': name.valid, 'is-invalid': name.dirty && name.invalid}" formControlName="name" title="Nom de la préparation">
-            <option value=""></option>
-            @for(preparation of preparations; track preparation.name) {
-              <option [value]="preparation.name" >{{preparation.name}}</option>
-            }
-          </select>
-        </td>
-        <td class="has-validation">
-          <select class="form-select form-select-sm" [ngClass]="{'is-valid': type.valid, 'is-invalid': type.dirty && type.invalid}" formControlName="type" title="Type de préparation">
-            <option value=""></option>
-            @for(typeName of types(); track typeName) {
-              <option [value]="typeName.toLowerCase()">{{typeName}}</option>
-            }
-          </select>
-        </td>
-        <td class="has-validation">
-          <input type="date" class="form-control form-control-sm" formControlName="makingDate" [ngClass]="{'is-valid': makingDate.valid, 'is-invalid': makingDate.dirty && makingDate.invalid}" placeholder="Date de fabrication" />
-        </td>
-        <td class="has-validation">
-          <input type="number" class="form-control form-control-sm" formControlName="daysBeforeHarvesting" [ngClass]="{'is-valid': daysBeforeHarvesting.valid, 'is-invalid': daysBeforeHarvesting.dirty && daysBeforeHarvesting.invalid}" title="nombre de jour avant récolte" />
-        </td>
-        <td class="has-validation">
-          <input type="date" [disabled]="true" readonly class="form-control form-control-sm" formControlName="harvestingDate" [ngClass]="{'is-valid': harvestingDate.valid, 'is-invalid': harvestingDate.dirty && harvestingDate.invalid}" placeholder="Date de récolte estimée" />
-        </td>
-        <td>
-          <div class="input-group">
-            <button [disabled]="preparationForm.dirty && preparationForm.invalid" title="Enregistrer" type="submit" class="btn btn-outline-primary btn-sm"><i class="bi bi-floppy2"></i></button>
-            <button title="Vider" type="reset" class="btn btn-secondary btn-sm"><i class="bi bi-eraser"></i></button>
-          </div>
-        </td>
-      </tr>
-    </tbody>
+    <tfoot>
+        <tr>
+          <td class="has-validation">
+            <input type="hidden" formControlName="id" />
+            <select class="form-select form-select-sm" [ngClass]="{'is-valid': name.valid, 'is-invalid': name.dirty && name.invalid}" formControlName="name" title="Nom de la préparation">
+              <option value=""></option>
+              @for(preparation of preparations; track preparation.name) {
+                <option [value]="preparation.name" >{{preparation.name}}</option>
+              }
+            </select>
+          </td>
+          <td class="has-validation">
+            <select class="form-select form-select-sm" [ngClass]="{'is-valid': type.valid, 'is-invalid': type.dirty && type.invalid}" formControlName="type" title="Type de préparation">
+              <option value=""></option>
+              @for(typeName of types(); track typeName) {
+                <option [value]="typeName.toLowerCase()">{{typeName}}</option>
+              }
+            </select>
+          </td>
+          <td class="has-validation">
+            <input type="date" class="form-control form-control-sm" formControlName="makingDate" [ngClass]="{'is-valid': makingDate.valid, 'is-invalid': makingDate.dirty && makingDate.invalid}" placeholder="Date de fabrication" />
+          </td>
+          <td class="has-validation">
+            <input type="number" class="form-control form-control-sm" formControlName="daysBeforeHarvesting" [ngClass]="{'is-valid': daysBeforeHarvesting.valid, 'is-invalid': daysBeforeHarvesting.dirty && daysBeforeHarvesting.invalid}" title="nombre de jour avant récolte" />
+          </td>
+          <td class="has-validation">
+            <input type="date" readonly class="form-control form-control-sm" formControlName="harvestingDate" [ngClass]="{'is-valid': harvestingDate.valid, 'is-invalid': harvestingDate.dirty && harvestingDate.invalid}" placeholder="Date de récolte estimée" />
+          </td>
+          <td>
+            <div class="input-group">
+              <button [disabled]="preparationForm.dirty && preparationForm.invalid" title="Enregistrer" type="submit" class="btn btn-outline-primary btn-sm"><i class="bi bi-floppy2"></i></button>
+              <button title="Vider" type="reset" class="btn btn-secondary btn-sm"><i class="bi bi-eraser"></i></button>
+            </div>
+          </td>
+        </tr>
+    </tfoot>
   </table>
+  </div>
 </form>
