@@ -1,8 +1,11 @@
 export interface Plant {
+  id: string
   name: string
   variety: string | undefined
   monthBeforeHarvesting: number
   plantingDate: Date
   harvestingDate: Date
-  lastFertilizerDate: Date | undefined
+  harvestingAlert: boolean
+  fertilizationDate: Date | undefined
+  fertilizationAlert: boolean
 }

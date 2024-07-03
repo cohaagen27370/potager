@@ -9,15 +9,15 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active" href="#">Mes plantations
+          <a class="nav-link" [ngClass]="{'active': coreStore.currentPage() == 'plants'}" (click)="navigate('plants')">Mes plantations
             <span class="visually-hidden">(current)</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Mes préparations</a>
+          <a class="nav-link" [ngClass]="{'active': coreStore.currentPage() == 'preparations'}"  (click)="navigate('preparations')">Mes préparations</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Divers</a>
+          <a class="nav-link" [ngClass]="{'active': coreStore.currentPage() == 'miscellaneous'}" (click)="navigate('miscellaneous')">Divers</a>
         </li>
       </ul>
     </div>

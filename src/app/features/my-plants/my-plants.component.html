@@ -1,26 +1,59 @@
-<form [formGroup]="plantForm">
+<form [formGroup]="plantForm" (submit)="Submit()">
   <table class="table">
     <thead>
       <tr>
         <th scope="col">Nom</th>
         <th scope="col">Variété</th>
-        <th scope="col">Date de plantation</th>
-        <th scope="col">Mois avant récolte</th>
-        <th scope="col">Date de récolte</th>
-        <th scope="col">Dernière Date de fertilisation</th>
+        <th class="text-center" scope="col">Date de plantation</th>
+        <th class="text-center" scope="col">Mois avant récolte</th>
+        <th class="text-center" scope="col">Date de récolte</th>
+        <th class="text-center" scope="col">Dernière Date de fertilisation</th>
         <th>&nbsp;</th>
       </tr>
     </thead>
     <tbody>
-
+      @for(plant of plantStore.plants(); track plant.name) {
+        <tr>
+          <td>{{plant.name}}</td>
+          <td>{{plant.variety}}</td>
+          <td class="text-center">{{plant.plantingDate | date: 'dd/MM/yyyy'}}</td>
+          <td class="text-center">{{plant.monthBeforeHarvesting}}</td>
+          <td class="text-center">
+            {{plant.harvestingDate | date : 'dd/MM/yyyy'}}
+            @if(plant.harvestingAlert) {
+              <i class="bi bi-exclamation-triangle-fill icon-red" title="Date dépassée de plus d'une semaine"></i>
+            }
+          </td>
+          @if (plant.fertilizationDate) {
+            <td class="text-center">
+              {{plant.fertilizationDate | date : 'dd/MM/yyyy'}}
+                @if(plant.fertilizationAlert) {
+                  <i class="bi bi-exclamation-triangle-fill icon-red" title="Date dépassée de plus de deux semaines"></i>
+                }
+            </td>
+          }
+          @else {
+            <td class="text-center">&nbsp;</td>
+          }
+          <td>
+            <div class="input-group">
+              <button title="Modifier" type="button" class="btn btn-dark btn-sm" (click)="modify(plant)"><i class="bi bi-pen"></i></button>
+              <button title="Supprimer" type="button" class="btn btn-danger btn-sm" (click)="remove(plant)"><i class="bi bi-trash"></i></button>
+            </div>
+          </td>
+        </tr>
+      }
     </tbody>
     <tbody>
       <tr>
         <td class="has-validation">
+          <input type="hidden" formControlName="id" />
           <select class="form-select form-select-sm" [ngClass]="{'is-valid': name.valid, 'is-invalid': name.dirty && name.invalid}" formControlName="name" title="Nom du légume / fruit">
             <option value=""></option>
-            <option value="salades">Salades</option>
-            <option value="betteraves">Betteraves</option>
+            @for(vegetable of vegetables; track vegetable.name) {
+              <option [value]="vegetable.name" >{{vegetable.name}}</option>
+            }
+            <!-- <option value="betteraves">Betteraves</option>
             <option value="carottes">Carottes</option>
             <option value="choux">Choux</option>
             <option value="pois">Pois</option>
@@ -30,26 +63,34 @@
             <option value="aubergines">Aubergines</option>
             <option value="poivrons">Poivrons</option>
             <option value="courgettes">Courgettes</option>
-            <option value="cucurbitacee">Cucurbitacée</option>
+            <option value="cucurbitacee">Cucurbitacée</option> -->
           </select>
         </td>
-        <td>
-          <input type="text" class="form-control form-control-sm" [ngClass]="{'is-valid': variety.valid, 'is-invalid': variety.dirty && variety.invalid}" formControlName="variety" placeholder="Variété" />
+        <td class="has-validation">
+          <select class="form-select form-select-sm" [ngClass]="{'is-valid': variety.valid, 'is-invalid': variety.dirty && variety.invalid}" formControlName="variety" title="Variété du légume / fruit">
+            <option value=""></option>
+            @for(varietyName of varieties(); track varietyName) {
+              <option [value]="varietyName.toLowerCase()">{{varietyName}}</option>
+            }
+          </select>
         </td>
-        <td>
-          <input type="date" [max]="max()" [min]="min()" class="form-control form-control-sm" formControlName="plantingDate" [ngClass]="{'is-valid': plantingDate.valid, 'is-invalid': plantingDate.dirty && plantingDate.invalid}" placeholder="Date de plantation" />
+        <td class="has-validation">
+          <input type="date" class="form-control form-control-sm" formControlName="plantingDate" [ngClass]="{'is-valid': plantingDate.valid, 'is-invalid': plantingDate.dirty && plantingDate.invalid}" placeholder="Date de plantation" />
         </td>
-        <td>
+        <td class="has-validation">
           <input type="number" class="form-control form-control-sm" formControlName="monthBeforeHarvesting" [ngClass]="{'is-valid': monthBeforeHarvesting.valid, 'is-invalid': monthBeforeHarvesting.dirty && monthBeforeHarvesting.invalid}" title="nombre de mois avant récolte" />
         </td>
-        <td>
-          {{ estimatedHarvestingDate() | date : 'dd/MM/yyyy'}}
+        <td class="has-validation">
+          <input type="date" [disabled]="true" readonly class="form-control form-control-sm" formControlName="harvestingDate" [ngClass]="{'is-valid': harvestingDate.valid, 'is-invalid': harvestingDate.dirty && harvestingDate.invalid}" placeholder="Date de récolte estimée" />
         </td>
-        <td>
+        <td class="has-validation">
           <input type="date" [max]="max()" [min]="min()" class="form-control form-control-sm" formControlName="fertilizationDate" [ngClass]="{'is-valid': fertilizationDate.valid, 'is-invalid': fertilizationDate.dirty && fertilizationDate.invalid}" placeholder="Dernière date de fertilisation" />
         </td>
         <td>
-          <button [disabled]="plantForm.dirty && plantForm.invalid" title="Enregistrer" type="submit" class="btn btn-light btn-sm"><i class="bi bi-floppy2"></i></button>
+          <div class="input-group">
+            <button [disabled]="plantForm.dirty && plantForm.invalid" title="Enregistrer" type="submit" class="btn btn-outline-primary btn-sm"><i class="bi bi-floppy2"></i></button>
+            <button title="Vider" type="reset" class="btn btn-secondary btn-sm"><i class="bi bi-eraser"></i></button>
+          </div>
         </td>
       </tr>
     </tbody>
