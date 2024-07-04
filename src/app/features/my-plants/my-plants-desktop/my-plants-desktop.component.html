@@ -18,7 +18,7 @@
           <td>{{plant.name}}</td>
           <td>{{plant.variety}}</td>
           <td class="text-center">{{plant.plantingDate | date: 'dd/MM/yyyy'}}</td>
-          <td class="text-center">{{plant.monthBeforeHarvesting}}</td>
+          <td class="text-center" style="width: 100px;">{{plant.monthBeforeHarvesting}}</td>
           <td class="text-center">
             {{plant.harvestingDate | date : 'dd/MM/yyyy'}}
             @if(plant.harvestingAlert) {
@@ -36,7 +36,7 @@
           @else {
             <td class="text-center">&nbsp;</td>
           }
-          <td>
+          <td style="width: 100px;">
             <div class="input-group">
               <button title="Modifier" type="button" class="btn btn-dark btn-sm" (click)="modify(plant)"><i class="bi bi-pen"></i></button>
               <button title="Supprimer" type="button" class="btn btn-danger btn-sm" (click)="remove(plant)"><i class="bi bi-trash"></i></button>
@@ -82,7 +82,7 @@
           <input type="number" class="form-control form-control-sm" formControlName="monthBeforeHarvesting" [ngClass]="{'is-valid': monthBeforeHarvesting.valid, 'is-invalid': monthBeforeHarvesting.dirty && monthBeforeHarvesting.invalid}" title="nombre de mois avant récolte" />
         </td>
         <td class="has-validation">
-          <input type="date" [disabled]="true" readonly class="form-control form-control-sm" formControlName="harvestingDate" [ngClass]="{'is-valid': harvestingDate.valid, 'is-invalid': harvestingDate.dirty && harvestingDate.invalid}" placeholder="Date de récolte estimée" />
+          <input type="date" readonly class="form-control form-control-sm" formControlName="harvestingDate" [ngClass]="{'is-valid': harvestingDate.valid, 'is-invalid': harvestingDate.dirty && harvestingDate.invalid}" placeholder="Date de récolte estimée" />
         </td>
         <td class="has-validation">
           <input type="date" [max]="max()" [min]="min()" class="form-control form-control-sm" formControlName="fertilizationDate" [ngClass]="{'is-valid': fertilizationDate.valid, 'is-invalid': fertilizationDate.dirty && fertilizationDate.invalid}" placeholder="Dernière date de fertilisation" />

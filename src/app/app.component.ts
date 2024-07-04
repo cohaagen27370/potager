@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent, FooterComponent,AlmanachComponent  } from './shared/components';
 import { SizeService } from './shared/services/size.service';
@@ -12,19 +12,6 @@ import { SizeService } from './shared/services/size.service';
 })
 export class AppComponent {
   title = 'potager';
-
-  format = signal<string | undefined>('desktop');
-
-  /**
-   *
-   */
-  constructor(resizeService : SizeService) {
-
-    resizeService.resize.subscribe((size) => {
-      console.info(size);
-      this.format.set(size);
-    });
-
-  }
+  resizeService = inject(SizeService);
 
 }

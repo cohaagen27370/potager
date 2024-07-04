@@ -1,13 +1,13 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Injectable, output } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Injectable, output, signal } from '@angular/core';
+import { Subject, distinctUntilChanged } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SizeService {
 
-  resize = new Subject<string | undefined>();
+  resize = signal<string | undefined>('');
 
   displayNameMap = new Map([
     [Breakpoints.XSmall, 'XSmall'],
@@ -24,28 +24,13 @@ export class SizeService {
         Breakpoints.Small,
         Breakpoints.Medium,
         Breakpoints.Large,
-        Breakpoints.XLarge,
+        Breakpoints.XLarge
       ])
       .subscribe(result => {
         for (const query of Object.keys(result.breakpoints)) {
           if (result.breakpoints[query]) {
-            console.info(this.displayNameMap.get(query));
-
-            switch(this.displayNameMap.get(query))
-            {
-              case 'XSmall':
-              case 'Small':
-                this.resize.next('mobile');
-                break;
-              case 'Medium':
-                  this.resize.next('tablet');
-                  break;
-              default:
-                  this.resize.next('desktop');
-                  break;
-            }
-
-
+            this.resize.set(this.displayNameMap.get(query));
+            console.debug(this.resize());
           }
         }
       });

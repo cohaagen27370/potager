@@ -1,20 +1,20 @@
 import { DatePipe, NgClass } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AllVegetables, Vegetables } from '../../shared/params';
+import { AllVegetables, Vegetables } from '../../../shared/params';
 import { add, sub, format } from 'date-fns';
-import { plantStore } from './my-plants.store';
-import { Plant } from './my-plants.model';
+import { plantStore } from '../my-plants.store';
+import { Plant } from '../my-plants.model';
 
 @Component({
-  selector: 'ptgr-my-plants',
+  selector: 'ptgr-my-plants-desktop',
   standalone: true,
   imports: [FormsModule, ReactiveFormsModule, DatePipe, NgClass],
-  templateUrl: './my-plants.component.html',
-  styleUrl: './my-plants.component.scss',
+  templateUrl: './my-plants-desktop.component.html',
+  styleUrl: './my-plants-desktop.component.scss',
   providers : [plantStore]
 })
-export class MyPlantsComponent {
+export class MyPlantsDesktopComponent {
 
   plantStore = inject(plantStore);
 

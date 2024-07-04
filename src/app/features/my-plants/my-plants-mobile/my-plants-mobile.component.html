@@ -1,0 +1,131 @@
+<form [formGroup]="plantForm" (submit)="Submit()">
+
+  @for(plant of plantStore.plants(); track plant.name) {
+    <div class="row">
+      <label for="name" class="col-sm-5 col-5 col-form-label">Nom</label>
+      <div class="col-sm-7 col-7">
+        <input type="text" readonly="" class="form-control-plaintext bold" id="name" [value]="plant.name">
+      </div>
+    </div>
+    <div class="row">
+      <label for="variety" class="col-sm-5 col-5 col-form-label">Variété</label>
+      <div class="col-sm-7 col-7">
+        <input type="text" readonly="" class="form-control-plaintext bold" id="variety" [value]="plant.variety">
+      </div>
+    </div>
+    <div class="row">
+      <label for="plantingDate" class="col-sm-6 col-6 col-form-label">Date de plantation</label>
+      <div class="col-sm-6 col-6">
+        <input type="text" readonly="" class="form-control-plaintext bold" id="plantingDate" [value]="plant.plantingDate | date: 'dd/MM/yyyy'">
+      </div>
+    </div>
+    <div class="row">
+      <label for="monthBeforeHarvesting" class="col-sm-5 col-5 col-form-label">Avant récolte</label>
+      <div class="col-sm-7 col-7">
+        <input type="text" readonly="" class="form-control-plaintext bold" id="monthBeforeHarvesting" [value]="plant.monthBeforeHarvesting + ' mois'">
+      </div>
+    </div>
+    <div class="row">
+      <label for="harvestingDate" class="col-sm-6 col-6 col-form-label">Date de récolte
+        @if(plant.harvestingAlert) {
+          <i class="bi bi-exclamation-triangle-fill icon-red" title="Date dépassée de plus d'une semaine"></i>
+        }
+      </label>
+      <div class="col-sm-6 col-6">
+        <input type="text" readonly="" class="form-control-plaintext bold" id="harvestingDate" [value]="plant.harvestingDate | date: 'dd/MM/yyyy'">
+      </div>
+    </div>
+    @if(plant.fertilizationDate) {
+      <div class="row">
+        <label for="fertilizationDate" class="col-sm-6 col-6 col-form-label">Date de fertilisation
+          @if(plant.fertilizationAlert) {
+            <i class="bi bi-exclamation-triangle-fill icon-red" title="Date dépassée de plus de deux semaines"></i>
+          }
+        </label>
+        <div class="col-sm-6 col-6">
+          <input type="text" readonly="" class="form-control-plaintext bold is-invalid" id="fertilizationDate" [value]="plant.fertilizationDate | date: 'dd/MM/yyyy'">
+        </div>
+      </div>
+    }
+    <div class="row">
+      <div class="col-sm-12 col-12 d-grid gap-2">
+          <button title="Modifier" type="button" class="btn btn-dark btn" data-bs-toggle="modal" (click)="modify(plant)" data-bs-target="#modifyPlant"><i class="bi bi-pen"></i> Modifier</button>
+          <button title="Supprimer" type="button" class="btn btn-danger btn" (click)="remove(plant)"><i class="bi bi-trash"></i> Supprimer</button>
+      </div>
+    </div>
+    <div class="row">
+      &nbsp;
+    </div>
+  }
+  <div class="row">
+    <div class="col-sm-12 col-12 d-grid gap-2">
+        <button title="Nouveau" type="button" class="btn btn-info btn" data-bs-toggle="modal" data-bs-target="#modifyPlant"><i class="bi bi-plus-circle"></i> Nouveau</button>
+    </div>
+  </div>
+
+  <div class="modal fade" data-bs-backdrop="static" id="modifyPlant">
+    <div class="modal-dialog modal-fullscreen modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ id.value && id.value != '' ? 'Modifier' : 'Nouveau' }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row has-validation">
+            <label for="name" class="col-sm-3 col-3 col-form-label">Nom</label>
+            <div class="col-sm-9 col-9">
+              <input type="hidden" formControlName="id" />
+              <select class="form-select form-select-sm" [ngClass]="{'is-valid': name.valid, 'is-invalid': name.dirty && name.invalid}" formControlName="name" title="Nom du légume / fruit">
+                <option value=""></option>
+                @for(vegetable of vegetables; track vegetable.name) {
+                  <option [value]="vegetable.name" >{{vegetable.name}}</option>
+                }
+               </select>
+            </div>
+          </div>
+          <div class="row has-validation">
+            <label for="variety" class="col-sm-3 col-3 col-form-label">Variété</label>
+            <div class="col-sm-9 col-9">
+              <select class="form-select form-select-sm" [ngClass]="{'is-valid': variety.valid, 'is-invalid': variety.dirty && variety.invalid}" formControlName="variety" title="Variété du légume / fruit">
+                <option value=""></option>
+                @for(varietyName of varieties(); track varietyName) {
+                  <option [value]="varietyName.toLowerCase()">{{varietyName}}</option>
+                }
+              </select>
+            </div>
+          </div>
+          <div class="row has-validation">
+            <label for="plantingDate" class="col-sm-5 col-5 col-form-label">Date plant.</label>
+            <div class="col-sm-7 col-7">
+              <input type="date" class="form-control form-control-sm" formControlName="plantingDate" [ngClass]="{'is-valid': plantingDate.valid, 'is-invalid': plantingDate.dirty && plantingDate.invalid}" placeholder="Date de plantation" />
+            </div>
+          </div>
+          <div class="row has-validation">
+            <label for="monthBeforeHarvesting" class="col-sm-5 col-5 col-form-label">M. av récolte</label>
+            <div class="col-sm-7 col-7">
+              <input type="number" class="form-control form-control-sm" formControlName="monthBeforeHarvesting" [ngClass]="{'is-valid': monthBeforeHarvesting.valid, 'is-invalid': monthBeforeHarvesting.dirty && monthBeforeHarvesting.invalid}" title="nombre de mois avant récolte" />
+            </div>
+          </div>
+          <div class="row has-validation">
+            <label for="harvestingDate" class="col-sm-5 col-5 col-form-label">Date récolte</label>
+            <div class="col-sm-7 col-7">
+              <input type="date" readonly class="form-control form-control-sm" formControlName="harvestingDate" [ngClass]="{'is-valid': harvestingDate.valid, 'is-invalid': harvestingDate.dirty && harvestingDate.invalid}" placeholder="Date de récolte estimée" />
+            </div>
+          </div>
+          <div class="row has-validation">
+            <label for="fertilizationDate" class="col-sm-5 col-5 col-form-label">Date fert.</label>
+            <div class="col-sm-7 col-7">
+              <input type="date" [max]="max()" [min]="min()" class="form-control form-control-sm" formControlName="fertilizationDate" [ngClass]="{'is-valid': fertilizationDate.valid, 'is-invalid': fertilizationDate.dirty && fertilizationDate.invalid}" placeholder="Dernière date de fertilisation" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button [disabled]="plantForm.dirty && plantForm.invalid" data-bs-dismiss="modal" title="Enregistrer" type="submit" class="btn btn-outline-primary btn-sm"><i class="bi bi-floppy2"></i></button>
+          <button title="Vider" type="reset" class="btn btn-secondary btn-sm"><i class="bi bi-eraser"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
