@@ -12,7 +12,7 @@ export class AlmanachService {
   http = inject(HttpClient);
 
   getDayEphemerids(insee:string) : Observable<DayEphemerid> {
-    return this.http.get<ApiEphemerid>(`https://api.meteo-concept.com/api/ephemeride/0?token=9c0c74fa843575ed406a669bcc556c4a6e02d665c33e5e97ecc0dd2962087e03&insee=${insee}`).pipe(
+    return this.http.get<ApiEphemerid>(`https://api.meteo-concept.com/api/ephemeride/0?token=&insee=${insee}`).pipe(
       map((response) => {
       return {
         sun_rise : response.ephemeride.sunrise,
@@ -24,7 +24,7 @@ export class AlmanachService {
   }
 
   getLocalisation(latitude:number, longitude:number) : Observable<City> {
-    return this.http.get<ApiCity>(`https://api.meteo-concept.com/api/location/city?token=9c0c74fa843575ed406a669bcc556c4a6e02d665c33e5e97ecc0dd2962087e03&latlng=${latitude},${longitude}`).pipe(
+    return this.http.get<ApiCity>(`https://api.meteo-concept.com/api/location/city?token=&latlng=${latitude},${longitude}`).pipe(
       map((response) => {
         return {
           insee : response.city.insee,
@@ -34,7 +34,7 @@ export class AlmanachService {
   }
 
   getMeteo(insee:string) : Observable<Meteo[]> {
-    return this.http.get<ApiMeteo>(`https://api.meteo-concept.com/api/forecast/daily?token=9c0c74fa843575ed406a669bcc556c4a6e02d665c33e5e97ecc0dd2962087e03&insee=${insee}`).pipe(
+    return this.http.get<ApiMeteo>(`https://api.meteo-concept.com/api/forecast/daily?token=&insee=${insee}`).pipe(
       map((response) => response.forecast.map((meteo) =>
         {
           return {
