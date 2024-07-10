@@ -14,7 +14,7 @@ export class AlmanachService {
   private readonly API_TOKEN: string = process.env["API_METEO_TOKEN"];
 
   getDayEphemerids(insee:string) : Observable<DayEphemerid> {
-    return this.http.get<ApiEphemerid>(`https://api.meteo-concept.com/api/ephemeride/0?token=${API_TOKEN}&insee=${insee}`).pipe(
+    return this.http.get<ApiEphemerid>(`https://api.meteo-concept.com/api/ephemeride/0?token=${this.API_TOKEN}&insee=${insee}`).pipe(
       map((response) => {
       return {
         sun_rise : response.ephemeride.sunrise,
@@ -26,7 +26,7 @@ export class AlmanachService {
   }
 
   getLocalisation(latitude:number, longitude:number) : Observable<City> {
-    return this.http.get<ApiCity>(`https://api.meteo-concept.com/api/location/city?token=${API_TOKEN}&latlng=${latitude},${longitude}`).pipe(
+    return this.http.get<ApiCity>(`https://api.meteo-concept.com/api/location/city?token=${this.API_TOKEN}&latlng=${latitude},${longitude}`).pipe(
       map((response) => {
         return {
           insee : response.city.insee,
@@ -36,7 +36,7 @@ export class AlmanachService {
   }
 
   getMeteo(insee:string) : Observable<Meteo[]> {
-    return this.http.get<ApiMeteo>(`https://api.meteo-concept.com/api/forecast/daily?token=${API_TOKEN}&insee=${insee}`).pipe(
+    return this.http.get<ApiMeteo>(`https://api.meteo-concept.com/api/forecast/daily?token=${this.API_TOKEN}&insee=${insee}`).pipe(
       map((response) => response.forecast.map((meteo) =>
         {
           return {
