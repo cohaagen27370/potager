@@ -1,0 +1,117 @@
+<form [formGroup]="preparationForm" (submit)="Submit()">
+
+  @for(preparation of preparationStore.preparations(); track preparation.name) {
+    <div class="row">
+      <label for="name" class="col-sm-5 col-5 col-form-label">Nom</label>
+      <div class="col-sm-7 col-7">
+        <input type="text" readonly="" class="form-control-plaintext bold" id="name" [value]="preparation.name">
+      </div>
+    </div>
+    <div class="row">
+      <label for="type" class="col-sm-5 col-5 col-form-label">Type</label>
+      <div class="col-sm-7 col-7">
+        <input type="text" readonly="" class="form-control-plaintext bold" id="type" [value]="preparation.type">
+      </div>
+    </div>
+    <div class="row">
+      <label for="makingDate" class="col-sm-6 col-6 col-form-label">Date de fabrication</label>
+      <div class="col-sm-6 col-6">
+        <input type="text" readonly="" class="form-control-plaintext bold" id="makingDate" [value]="preparation.makingDate | date: 'dd/MM/yyyy'">
+      </div>
+    </div>
+    <div class="row">
+      <label for="daysBeforeHarvesting" class="col-sm-5 col-5 col-form-label">Avant récolte</label>
+      <div class="col-sm-7 col-7">
+        <input type="text" readonly="" class="form-control-plaintext bold" id="daysBeforeHarvesting" [value]="preparation.daysBeforeHarvesting">
+      </div>
+    </div>
+    <div class="row">
+      <label for="harvestingDate" class="col-sm-6 col-6 col-form-label">Date de récolte
+        @if(preparation.harvestingAlert) {
+          <i class="bi bi-exclamation-triangle-fill icon-red" title="Date dépassée de plus d'une semaine"></i>
+        }
+      </label>
+      <div class="col-sm-6 col-6">
+        <input type="text" readonly="" class="form-control-plaintext bold" id="harvestingDate" [value]="preparation.harvestingDate | date: 'dd/MM/yyyy'">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-12 d-grid gap-2">
+          <button title="Modifier" type="button" class="btn btn-dark btn-lg" data-bs-toggle="modal" (click)="modify(preparation)" data-bs-target="#modifyPreparation"><i class="bi bi-pen"></i> Modifier</button>
+          <button title="Supprimer" type="button" class="btn btn-danger btn-lg" (click)="remove(preparation)"><i class="bi bi-trash"></i> Supprimer</button>
+      </div>
+    </div>
+    <div class="row">
+      &nbsp;
+    </div>
+  }
+  <div class="row">
+    <div class="col-sm-12 col-12 d-grid gap-2">
+        <button title="Nouveau" type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#modifyPreparation"><i class="bi bi-plus-circle"></i> Nouveau</button>
+    </div>
+  </div>
+  <div class="row">
+    <br/><br/><br/>
+  </div>
+
+  <div class="modal fade" data-bs-backdrop="static" id="modifyPreparation">
+    <div class="modal-dialog modal-fullscreen modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ id.value && id.value != '' ? 'Modifier' : 'Nouveau' }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row has-validation mb-3">
+            <label for="name" class="col-sm-3 col-3 col-form-label">Nom</label>
+            <div class="col-sm-9 col-9">
+              <input type="hidden" formControlName="id" />
+              <select class="form-select form-select-lg" [ngClass]="{'is-valid': name.valid, 'is-invalid': name.dirty && name.invalid}" formControlName="name" title="Nom de la préparation">
+                <option value=""></option>
+                @for(preparation of preparations; track preparation.name) {
+                  <option [value]="preparation.name" >{{preparation.name}}</option>
+                }
+               </select>
+            </div>
+          </div>
+          <div class="row has-validation mb-3">
+            <label for="variety" class="col-sm-3 col-3 col-form-label">Type</label>
+            <div class="col-sm-9 col-9">
+              <select class="form-select form-select-lg" [ngClass]="{'is-valid': type.valid, 'is-invalid': type.dirty && type.invalid}" formControlName="type" title="Type de préparation">
+                <option value=""></option>
+                @for(typeName of types(); track typeName) {
+                  <option [value]="typeName.toLowerCase()">{{typeName}}</option>
+                }
+              </select>
+            </div>
+          </div>
+          <div class="row has-validation mb-3">
+            <label for="makingDate" class="col-sm-5 col-5 col-form-label">Date fabr.</label>
+            <div class="col-sm-7 col-7">
+              <input type="date" class="form-control form-control-lg" formControlName="makingDate" [ngClass]="{'is-valid': makingDate.valid, 'is-invalid': makingDate.dirty && makingDate.invalid}" placeholder="Date de fabrication" />
+            </div>
+          </div>
+          <div class="row has-validation mb-3">
+            <label for="daysBeforeHarvesting" class="col-sm-5 col-5 col-form-label">J. av récolte</label>
+            <div class="col-sm-7 col-7">
+              <input type="number" class="form-control form-control-lg" formControlName="daysBeforeHarvesting" [ngClass]="{'is-valid': daysBeforeHarvesting.valid, 'is-invalid': daysBeforeHarvesting.dirty && daysBeforeHarvesting.invalid}" title="nombre de jours avant récolte" />
+            </div>
+          </div>
+          <div class="row has-validation mb-3">
+            <label for="harvestingDate" class="col-sm-5 col-5 col-form-label">Date récolte</label>
+            <div class="col-sm-7 col-7">
+              <input type="date" readonly class="form-control form-control-lg" formControlName="harvestingDate" [ngClass]="{'is-valid': harvestingDate.valid, 'is-invalid': harvestingDate.dirty && harvestingDate.invalid}" placeholder="Date de récolte estimée" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button [disabled]="preparationForm.dirty && preparationForm.invalid" data-bs-dismiss="modal" title="Enregistrer" type="submit" class="btn btn-primary btn-lg"><i class="bi bi-floppy2"></i> Enregistrer</button>
+          <button title="Vider" type="reset" class="btn btn-secondary btn-lg"><i class="bi bi-eraser"></i> Vider</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

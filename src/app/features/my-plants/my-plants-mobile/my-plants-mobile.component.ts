@@ -5,7 +5,6 @@ import { format, add, sub } from 'date-fns';
 import { Vegetables, AllVegetables } from '../../../shared/params';
 import { Plant } from '../my-plants.model';
 import { plantStore } from '../my-plants.store';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'ptgr-my-plants-mobile',

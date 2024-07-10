@@ -2,7 +2,9 @@
   <div class="card-body">
     <h4 class="card-title text-center">Almanach</h4>
     <p class="text-center">Le {{ now | date:'fullDate'}}</p>
-
+    <h5 class="card-text text-center">{{ saint() }}</h5>
+    <br/>
+    <p class="text-center"><strong>{{city()}}</strong></p>
     @if(ephemerid()) {
       <h6 class="card-subtitle mb-2 text-muted">
         @if( ephemerid()?.sun_rise) {
@@ -27,6 +29,28 @@
         }
       </h6>
     }
-    <p class="card-text text-center">{{ saint() }}</p>
+
+    <br/>
+    @if(meteo3Days()) {
+      <div class="row">
+      @for(meteoDay of meteo3Days(); track meteoDay.day) {
+          <div class="col-4">
+            <div class="text-center">
+              <b>{{meteoDay.datetime | date:'dd/MM' }}</b>
+            </div>
+            <div class="text-center">
+              <img [src]="meteoDay.weatherIcon" class="img-fluid" [title]="meteoDay.weatherDescription"/>
+            </div>
+            <div class="text-center">
+              <small><b>{{meteoDay.tmin}}</b> °C</small>
+            </div>
+            <div class="text-center">
+              <small><b>{{meteoDay.tmax}}</b> °C</small>
+            </div>
+          </div>
+      }
+      </div>
+    }
+
   </div>
 </div>

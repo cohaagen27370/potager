@@ -8,13 +8,13 @@ export const routes: Routes = [
   },
   {
     path : 'plants',
-    title : "Mes plantes",
+    title : "Mes plantations",
     loadComponent : () => import('./features/my-plants/my-plants-general/my-plants-general.component').then(m => m.MyPlantsGeneralComponent)
   },
   {
     path : 'preparations',
     title : "Mes préparations",
-    loadComponent : () => import('./features/my-preparations/my-preparations.component').then(m => m.MyPreparationsComponent)
+    loadComponent : () => import('./features/my-preparations/my-preparations-general/my-preparations-general.component').then(m => m.MyPreparationsGeneralComponent)
   },
   {
     path : 'miscellaneous',

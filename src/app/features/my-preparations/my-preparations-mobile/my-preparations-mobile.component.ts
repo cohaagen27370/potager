@@ -1,21 +1,20 @@
 import { Component, inject, signal } from '@angular/core';
-import { AllPreparations, preparations } from '../../shared/params';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { add, format } from 'date-fns';
+import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { format, add } from 'date-fns';
+import { preparations, AllPreparations } from '../../../shared/params';
+import { Preparation } from '../my-preparations.model';
+import { preparationStore } from '../my-preparations.store';
 import { DatePipe, NgClass } from '@angular/common';
-import { preparationStore } from './my-preparations.store';
-import { Preparation } from './my-preparations.model';
 
 @Component({
-  selector: 'ptgr-my-preparations',
+  selector: 'ptgr-my-preparations-mobile',
   standalone: true,
   imports: [FormsModule, ReactiveFormsModule, DatePipe, NgClass],
-  templateUrl: './my-preparations.component.html',
-  styleUrl: './my-preparations.component.scss',
+  templateUrl: './my-preparations-mobile.component.html',
+  styleUrl: './my-preparations-mobile.component.scss',
   providers : [preparationStore]
 })
-export class MyPreparationsComponent {
-
+export class MyPreparationsMobileComponent {
   preparationStore = inject(preparationStore);
 
   preparations: preparations[] = AllPreparations;
