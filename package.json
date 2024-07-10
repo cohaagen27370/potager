@@ -37,6 +37,7 @@
     "@angular/cli": "^18.0.6",
     "@angular/compiler-cli": "^18.0.0",
     "@angular/localize": "^18.0.0",
+    "@types/node": "^20.14.10",
     "@types/jasmine": "~5.1.0",
     "@types/localforage": "^0.0.34",
     "@types/uuid": "^10.0.0",
