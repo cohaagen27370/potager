@@ -1,5 +1,6 @@
 const fs = require('fs');
 const targetPath = 'src/environments/environment.ts';
+console.info(process.env);
 const customValue = process.env.API_METEO_TOKEN || '';
 fs.readFile(targetPath, 'utf8', (err, data) => {
   if (err) {
