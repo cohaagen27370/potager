@@ -11,7 +11,7 @@ export class AlmanachService {
 
   http = inject(HttpClient);
 
-  private readonly API_TOKEN: string = process.env["API_METEO_TOKEN"]!;
+  API_TOKEN = import.meta.env.NG_APP_API_METEO_TOKEN;
 
   getDayEphemerids(insee:string) : Observable<DayEphemerid> {
     return this.http.get<ApiEphemerid>(`https://api.meteo-concept.com/api/ephemeride/0?token=${this.API_TOKEN}&insee=${insee}`).pipe(
