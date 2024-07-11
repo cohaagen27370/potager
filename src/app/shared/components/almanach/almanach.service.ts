@@ -3,6 +3,7 @@ import { Observable, map } from 'rxjs';
 import { ApiCity, ApiMeteo, ApiEphemerid, City, DayEphemerid, Meteo } from './almanach.model';
 import { HttpClient } from '@angular/common/http';
 import * as forecast  from '../../../../assets/scripts/forecast.json';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class AlmanachService {
 
   http = inject(HttpClient);
 
-  API_TOKEN = import.meta.env.NG_APP_API_METEO_TOKEN;
+  API_TOKEN = environment.API_METEO_TOKEN;
 
   getDayEphemerids(insee:string) : Observable<DayEphemerid> {
     return this.http.get<ApiEphemerid>(`https://api.meteo-concept.com/api/ephemeride/0?token=${this.API_TOKEN}&insee=${insee}`).pipe(
