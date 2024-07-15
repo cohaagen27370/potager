@@ -4,10 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng dev",
-    "build": "npm run set-env-value && ng build --configuration production",
+    "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "set-env-value": "node src/utils/set-env-value.js"
+    "test": "ng test"
   },
   "private": true,
   "dependencies": {
