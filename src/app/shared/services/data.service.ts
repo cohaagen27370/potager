@@ -1,31 +1,32 @@
 import { Injectable } from '@angular/core';
-import { CachedItem, NgForage, NgForageCache } from 'ngforage';
+import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  constructor(private readonly ngf: NgForage, private readonly cache: NgForageCache) {}
+  public constructor(private dbService: NgxIndexedDBService) {}
 
-  public getItem<T>(key: string): Promise<T | null> {
-    return this.ngf.getItem<T>(key);
+  public getAll<T>(storeName: string): Observable<T[]> {
+    return this.dbService.getAll<T>(storeName);
   }
 
-  public async getCachedItem<T = any>(key: string): Promise<T | null> {
-    const r = await this.cache.getCached<T>(key);
-    if (!r.hasData || r.expired) {
-      return null;
-    }
-    return r.data;
+  public get<T>(storeName: string,id: string): Observable<T> {
+    return this.dbService.getByID(storeName,id);
   }
 
-  public saveItem<T>(key: string, item:T) : Promise<T> {
-    return this.ngf.setItem(key, item);
+  public saveNew<T>(storeName: string,item: T): Observable<T> {
+    return this.dbService.add(storeName,item);
   }
 
-  public removeItem<T>(key: string) {
-    return this.ngf.removeItem(key);
+  public update<T>(storeName: string,id: string, item: T): Observable<T> {
+    return this.dbService.update(storeName,item);
+  }
+
+  public remove(storeName: string, id: string): Observable<boolean> {
+    return this.dbService.deleteByKey(storeName,id);
   }
 
 }

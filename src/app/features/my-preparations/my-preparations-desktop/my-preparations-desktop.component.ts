@@ -35,6 +35,8 @@ export class MyPreparationsDesktopComponent {
   Submit() {
     let newPreparation = this.preparationForm.value as Preparation;
 
+    console.info(newPreparation);
+
     if (newPreparation.id)
     {
       this.preparationStore.UpdatePreparation(newPreparation);
@@ -63,7 +65,7 @@ export class MyPreparationsDesktopComponent {
     this.type = new FormControl('',[Validators.required]);
     this.daysBeforeHarvesting = new FormControl('',[Validators.required ]);
     this.makingDate = new FormControl('',[Validators.required ]);
-    this.harvestingDate = new FormControl({ value :'',  disabled: true},[]);
+    this.harvestingDate = new FormControl('',[]);
 
     this.preparationForm = new FormGroup({
       id: this.id,

@@ -4,7 +4,7 @@ import { DataService } from "../../shared/services/data.service";
 import { inject } from "@angular/core";
 import { add, sub, format, compareAsc } from 'date-fns';
 import { Preparation } from "./my-preparations.model";
-import { preparations } from "../../shared/params";
+import { take } from "rxjs";
 
 export interface StatePreparation {
   preparations: Array<Preparation>;
@@ -40,7 +40,14 @@ export const preparationStore = signalStore(
         newPreparation.id = uuidv4();
         patchState(store,{ preparations : [...store.preparations(), newPreparation]});
         store.DetectAlert();
-        dataService.saveItem("myPreparations", store.preparations());
+        dataService.saveNew("my-preparations", newPreparation).subscribe({
+          next(value) {
+            console.info(value);
+          },
+          error(err) {
+            console.error(err);
+          },
+        });
       },
       UpdatePreparation(existingPreparation: Preparation) {
         patchState(store, {
@@ -54,24 +61,38 @@ export const preparationStore = signalStore(
         });
         store.DetectAlert();
 
-        dataService.saveItem("myPreparations", store.preparations());
+        dataService.update("my-preparations",existingPreparation.id, existingPreparation).subscribe({
+          next(value) {
+            console.info(value);
+          },
+          error(err) {
+            console.error(err);
+          },
+        });
       },
       RemovePreparation(id: string) {
         patchState(store, {preparations : store.preparations().filter(x => x.id != id)});
-        dataService.saveItem("myPreparations", store.preparations());
+        dataService.remove("my-preparations", id).subscribe({
+          next(value) {
+            console.info(value);
+          },
+          error(err) {
+            console.error(err);
+          },
+        });
       }
     })
   ),
   withHooks({
     async onInit(store, dataService = inject(DataService)) {
 
-      const existingPreparations = (await dataService.getItem<Array<Preparation>>("myPreparations"))!;
+      dataService.getAll<Preparation>("my-preparations").pipe(take(1)).subscribe({
+        next(value) {
+          patchState(store, { preparations : value});
+          store.DetectAlert();
+        },
+      });
 
-      if (existingPreparations)
-      {
-        patchState(store, { preparations : existingPreparations});
-        store.DetectAlert();
-      }
     },
     onDestroy(store) {
       console.log('count on destroy');

@@ -1,9 +1,10 @@
 import { patchState, signalStore, withHooks, withMethods, withState } from "@ngrx/signals";
 import { Plant } from "./my-plants.model";
 import {v4 as uuidv4} from 'uuid';
-import { DataService } from "../../shared/services/data.service";
 import { inject } from "@angular/core";
-import { add, sub, format, compareAsc } from 'date-fns';
+import { add, compareAsc } from 'date-fns';
+import { DataService } from "../../shared/services";
+import { take } from "rxjs";
 
 export interface StatePlant {
   plants: Array<Plant>;
@@ -41,7 +42,14 @@ export const plantStore = signalStore(
         newPlant.id = uuidv4();
         patchState(store,{ plants : [...store.plants(), newPlant]});
         store.DetectAlert();
-        dataService.saveItem("myPlants", store.plants());
+        dataService.saveNew("my-plants", newPlant).subscribe({
+          next(value) {
+            console.info(value);
+          },
+          error(err) {
+            console.error(err);
+          },
+        });
       },
       UpdatePlant(existingPlant: Plant) {
         patchState(store, {
@@ -55,24 +63,25 @@ export const plantStore = signalStore(
         });
         store.DetectAlert();
 
-        dataService.saveItem("myPlants", store.plants());
+        dataService.update<Plant>("my-plants", existingPlant.id, existingPlant);
       },
       RemovePlant(id: string) {
         patchState(store, {plants : store.plants().filter(x => x.id != id)});
-        dataService.saveItem("myPlants", store.plants());
+        dataService.remove("my-plants", id);
       }
     })
   ),
   withHooks({
     async onInit(store, dataService = inject(DataService)) {
 
-      const existingPlants = (await dataService.getItem<Array<Plant>>("myPlants"))!;
-
-      if (existingPlants)
-      {
-        patchState(store, { plants : existingPlants});
-        store.DetectAlert();
-      }
+      dataService.getAll<Plant>("my-plants").pipe(take(1)).subscribe(
+        {
+          next(value) {
+            patchState(store, { plants : value});
+            store.DetectAlert();
+          },
+        }
+      );
     },
     onDestroy(store) {
       console.log('count on destroy');

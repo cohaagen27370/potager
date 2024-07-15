@@ -1,0 +1,80 @@
+<form [formGroup]="stockForm" (submit)="Submit()">
+  <div class="table-responsive">
+  <table class="table table-striped table-borderless">
+    <thead class="table-light">
+      <tr>
+        <th scope="col" class="text-center">Photo</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Variété</th>
+        <th class="text-center" scope="col">Quantité restante</th>
+        <th class="text-center" scope="col">Date d'expiration</th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(stock of stockStore.stocks(); track stock.id) {
+        <tr>
+          <td class="text-center">
+            <img [src]="stock.photoLink" class="img-fluid" width="100"/>
+          </td>
+          <td>{{stock.name}}</td>
+          <td>{{stock.variety}}</td>
+          <td class="text-center">{{stock.amount | Amount}}</td>
+          <td class="text-center">
+            {{stock.expirationDate | date: 'dd/MM/yyyy'}}
+            @if(stock.expirationAlert) {
+              <i class="bi bi-exclamation-triangle-fill icon-red" title="Date dépassée de plus d'une semaine"></i>
+            }
+          </td>
+          <td>
+            <div class="input-group">
+              <button title="Modifier" type="button" class="btn btn-dark btn-sm" (click)="modify(stock)"><i class="bi bi-pen"></i></button>
+              <button title="Supprimer" type="button" class="btn btn-danger btn-sm" (click)="remove(stock)"><i class="bi bi-trash"></i></button>
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+    <tfoot>
+        <tr>
+          <td>
+            <input type="text" class="form-control form-control-sm" formControlName="photoLink" [ngClass]="{'is-valid': photoLink.valid, 'is-invalid': photoLink.dirty && photoLink.invalid}" placeholder="Lien vers l'image" />
+          </td>
+          <td class="has-validation">
+            <input type="hidden" formControlName="id" />
+            <select class="form-select form-select-sm" [ngClass]="{'is-valid': name.valid, 'is-invalid': name.dirty && name.invalid}" formControlName="name" title="Nom de la plante">
+              <option value=""></option>
+              @for(vegetable of vegetables; track vegetable.name) {
+                <option [value]="vegetable.name" >{{vegetable.name}}</option>
+              }
+            </select>
+          </td>
+          <td class="has-validation">
+            <select class="form-select form-select-sm" [ngClass]="{'is-valid': variety.valid, 'is-invalid': variety.dirty && variety.invalid}" formControlName="variety" title="Variété du plant">
+              <option value=""></option>
+              @for(variety of varieties(); track variety) {
+                <option [value]="variety.toLowerCase()">{{variety}}</option>
+              }
+            </select>
+          </td>
+          <td class="has-validation">
+            <select class="form-select form-select-sm" [ngClass]="{'is-valid': amount.valid, 'is-invalid': amount.dirty && amount.invalid}" formControlName="amount" title="Quantité restante">
+              <option value="Full">Plein</option>
+              <option value="Medium">Moyen</option>
+              <option value="Low">Peu</option>
+            </select>
+          </td>
+          <td class="has-validation">
+            <input type="date" class="form-control form-control-sm" formControlName="expirationDate" [ngClass]="{'is-valid': expirationDate.valid, 'is-invalid': expirationDate.dirty && expirationDate.invalid}" placeholder="Date d'expiration" />
+          </td>
+          <td>
+            <div class="input-group">
+              <button [disabled]="stockForm.dirty && stockForm.invalid" title="Enregistrer" type="submit" class="btn btn-outline-primary btn-sm"><i class="bi bi-floppy2"></i></button>
+              <button title="Vider" type="reset" class="btn btn-secondary btn-sm"><i class="bi bi-eraser"></i></button>
+            </div>
+          </td>
+        </tr>
+    </tfoot>
+  </table>
+  </div>
+</form>

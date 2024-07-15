@@ -17,6 +17,11 @@ export const routes: Routes = [
     loadComponent : () => import('./features/my-preparations/my-preparations-general/my-preparations-general.component').then(m => m.MyPreparationsGeneralComponent)
   },
   {
+    path : 'stocks',
+    title : "Mes stocks",
+    loadComponent : () => import('./features/stocks/stocks.component').then(m => m.StocksComponent)
+  },
+  {
     path : 'miscellaneous',
     title : "Divers",
     loadComponent : () => import('./features/miscellaneous/miscellaneous.component').then(m => m.MiscellaneousComponent)

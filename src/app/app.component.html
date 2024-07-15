@@ -7,13 +7,29 @@
   <br/>
   <div class="row">
     @if(resizeService.resize() != "XSmall") {
-      <div class="col-xxl-2 col-xl-2 mb-2">
+      <div [ngClass]="{'col-xxl-2 col-xl-2 mb-2': showAlmanac, 'col-xxl-1 col-xl-1' : !showAlmanac}">
         <aside>
-          <ptgr-almanach/>
+          <div class="row">
+            @if(showAlmanac) {
+              <div class="col-10" style="padding-right: 0px;">
+                <ptgr-almanach/>
+              </div>
+            }
+            <div class="col-2" style="cursor: pointer;align-content: center;" (click)="showOrHideAlmanac()">
+              @if(showAlmanac) {
+                <i class="bi bi-arrow-bar-left"></i>
+              }
+              @else {
+                <i class="bi bi-arrow-bar-right"></i>
+              }
+            </div>
+          </div>
+
+
         </aside>
       </div>
     }
-    <div class="col-xxl-10 col-xl-10 col-lg-12 col-md-12 col-sm-12 col-12">
+    <div [ngClass]="{'col-xxl-10 col-xl-10 col-lg-12 col-md-12 col-sm-12 col-12' : showAlmanac, 'col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12' : !showAlmanac}" >
       <main>
         <router-outlet />
       </main>
